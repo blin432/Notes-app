@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button,Form,Container,Row,Col } from 'react-bootstrap';
+import { Button,Form,Container,Row,Col,Accordion,Card, InputGroup,FormControl} from 'react-bootstrap';
 
 class Notes extends Component {
   constructor(props){
@@ -14,21 +14,39 @@ class Notes extends Component {
 
 render(){
   return (
-    <Container className="text-center">
-        <div>
-          <ul>
+    <ul>
               {
                 this.state.notesArray.map((item,i)=>{
                   return(
-                    <li key={i}>
-                      {item} 
-                    </li>
+
+                    <Accordion className="m-2" defaultActiveKey="0">
+                    <Card>
+                      <Accordion.Toggle as={Card.Header} eventKey={i}>
+                        {item}
+                      </Accordion.Toggle>
+                      <Accordion.Collapse eventKey={i}>
+                        <Card.Body>
+                        <InputGroup>
+                          <FormControl
+                            placeholder="Recipient's username"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            value={this.state.editValue}  onChange={this.handleEditChange}
+                          />
+                          <InputGroup.Append>
+                            <Button variant="outline-secondary" onClick={() => {this.edit(item,i)}}>EDIT</Button>
+                            <Button variant="outline-secondary" onClick={() =>{this.delete(item,i)}}>DELETE</Button>
+                          </InputGroup.Append>
+                        </InputGroup>
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+                    
                   )
                 })
               }
           </ul>
-        </div>
-    </Container>
   );
 }
 }

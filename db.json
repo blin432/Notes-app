@@ -1,48 +1,32 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "lowdb is awesome"
-    },
-    {
-      "id": 1,
-      "title": "dsf"
-    },
-    {
-      "id": 1,
-      "title": "asdf"
-    },
-    {
-      "id": 1,
-      "title": "hey"
-    },
-    {
-      "id": 1,
+      "id": 5,
       "title": "test"
     },
     {
-      "id": 1,
-      "title": "test"
+      "id": 6,
+      "title": "testbyitself"
     },
     {
-      "id": 1,
-      "title": "test"
+      "id": 0,
+      "title": "hi!"
     },
     {
-      "id": 1,
-      "title": "test"
+      "id": 0,
+      "title": "sdf"
     },
     {
-      "id": 1,
-      "title": "test"
+      "id": 0,
+      "title": "sadf"
     },
     {
-      "id": 1,
-      "title": "test"
+      "id": 5,
+      "title": ""
     }
   ],
   "user": {
     "name": "typicode"
   },
-  "count": 1
+  "count": 8
 }

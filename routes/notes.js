@@ -8,6 +8,7 @@ const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const db = low(adapter)
 
+
 /* GET notes listing. */
 
 
@@ -28,32 +29,39 @@ router.get('/', function(req, res, next) {
 //create the notes in at the resource
 router.post('/add', function(req, res, next) {
   console.log(req.body);
-  let notes = req.body.inputValue
-  const post = _.insert(db.posts, { body: 'New post' })
+  let id = req.body.idNumber
+  let notes = req.body.inputValue;
   db.get('posts')
-    .push({ id: 1, title: req.body.inputValue.inputValue})
+    .push({id:id,title: notes})
     .write()
   
 });
 
 //edit notes at the resources
-router.put('/edit', function(req, res, next) {
-  db.get('posts')
-  .find({ title: 'low!' })
-  .assign({ title: 'hi!'})
+router.put('/edit/:id', function(req, res, next) {
+  console.log(req.params)
+  console.log(req.body)
+  let editId= req.params.id
+  console.log(editId)
+  let editTitle= req.body.editValue
+  console.log(editTitle)
+  db.get(`posts[${editId}]`)
+  .assign({ title: editTitle})
   .write()
-  res.send('respond with a notes resource');
 });
 
 
 //delete notes at the resource
-router.delete('/delete', function(req, res, next) {
-
-  db.get('posts')
-  .remove({ title: 'low!' })
+router.delete('/delete/:id', function(req, res, next) {
+  console.log("id")
+  console.log(req.params.id)
+  let idDelete= req.params.id
+  const n=db.get(`posts[${idDelete}]`)
+  .remove()
   .write()
+  console.log(n);
 
-  res.send('respond with a notes resource');
+  
 });
 
 module.exports = router;

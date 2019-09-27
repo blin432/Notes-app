@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button,Form,Container,Row,Col } from 'react-bootstrap';
+import { Button,Form,Container,Row,Col,Accordion,Card, InputGroup,FormControl} from 'react-bootstrap';
 import Notes from './Notes.jsx';
 
 
@@ -9,15 +9,15 @@ class Inputfield extends Component {
     super(props)
     this.state={
       inputValue:'',
-      notesArray:[]
+      notesArray:[],
+      editValue:''
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEditChange = this.handleEditChange.bind(this);
   }
 
 
-
-
-
- 
 
   componentDidMount(e){
     axios.get('/notes')
@@ -38,28 +38,82 @@ class Inputfield extends Component {
     // score.level === this.state.level)}))
 
 
-  handleClick() {
-    this.setState(state => ({
-      isToggleOn: !state.isToggleOn
-    }));
+  // handleClick() {
+  //   this.setState(state => ({
+  //     isToggleOn: !state.isToggleOn
+  //   }));
+  // }
+
+  // handleNoteInput(input){
+  //   this.setState({inputValue:input})
+  // }
+  // handleNoteEdit(input){
+  //   this.setState({inputValue:input})
+  // }
+  handleChange(event){
+    this.setState({
+      inputValue:event.target.value
+    });
   }
 
-  handleNoteInput(input){
-    this.setState({inputValue:input})
+  handleEditChange(event){
+    this.setState({
+      editValue:event.target.value
+    });
   }
-
-  add(e) {
-    e.preventDefault()
-    let inputValue  = this.state;
-      axios.post('/notes/add', {inputValue})
+  handleSubmit(e) {
+    this.setState({
+      notesArray:[...this.state.notesArray,this.state.inputValue]
+    })
+    let {inputValue,notesArray}= this.state
+    console.log(notesArray.length);
+    let idNumber = notesArray.length
+    console.log(inputValue);
+    console.log(notesArray)
+    axios.post('/notes/add', {inputValue,idNumber})
       .then((data) =>{
         console.log(data)
-      this.setState({
-        notesArray:[...this.state.notesArray]
-      })
       })
       .catch((error) => this.setState({errMsg:error}))
-    
+    e.preventDefault(); 
+}
+ 
+     
+edit(e,i) {
+  let {editValue,notesArray} = this.state
+  console.log(i)
+  
+  let editArray =Object.assign([], this.state.notesArray, {[i]: editValue});
+  console.log(editArray);
+  this.setState({
+    notesArray:editArray
+  })
+  console.log(notesArray.length);
+  console.log(notesArray)
+  axios.put(`/notes/edit/${i}`, {editValue})
+    .then((data) =>{
+      console.log(data)
+    })
+    .catch((error) => this.setState({errMsg:error}))
+}
+
+
+
+delete(valueToDelete,i){
+  console.log(i)
+  let changedArray = this.state.notesArray.filter((item,index)=>{
+     return i !== index
+  })
+  console.log(changedArray);
+  this.setState({
+    notesArray:changedArray
+  })
+  axios.delete(`/notes/delete/${i}`)
+  .then((data) =>{
+    console.log(data)
+  })
+  .catch((error) => this.setState({errMsg:error}))
+
 }
   
 
@@ -67,25 +121,44 @@ render(){
   return (
     <Container className="text-center">
       <Row>
-        <Col>
+        <Col md={{ span: 7, offset: 3 }}>
           <h3 className="mt-5">NOTES</h3>
-          <Form onSubmit={(e) => this.add(e)}>
-            <Form.Group >
-                  <Form.Label>NOTES</Form.Label>
-                  <Form.Control type="text" value={this.state.inputValue}  onChange={(e) => this.handleNoteInput(e.target.value)}/>
+          <Form  className="d-flex flex-row justify-content-center align-items-center" onSubmit={this.handleSubmit}>
+            <Form.Group className="m-0"  as={Col}>
+                  <Form.Control type="text" value={this.state.inputValue}  onChange={this.handleChange}/>
             </Form.Group>
-            <div className="d-flex flex-row" >
-              <Button style={{display:"block"}} className = "m-2" variant="primary" type="submit"> ADD</Button>
-              <Button style={{display:"block"}} className = "m-2" variant="primary" onClick={this.handleClick}> Edit</Button>
-            </div>
-
+              <Button  style={{display:"block"}} className = "m-0" variant="primary" type="submit"> ADD</Button>
           </Form>
           <div>
           <ul>
               {
                 this.state.notesArray.map((item,i)=>{
                   return(
-                    <li key={i}>{item} </li>
+
+                    <Accordion className="m-2" defaultActiveKey="0">
+                    <Card>
+                      <Accordion.Toggle as={Card.Header} eventKey={i}>
+                        {item}
+                      </Accordion.Toggle>
+                      <Accordion.Collapse eventKey={i}>
+                        <Card.Body>
+                        <InputGroup>
+                          <FormControl
+                            placeholder="Recipient's username"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                            value={this.state.editValue}  onChange={this.handleEditChange}
+                          />
+                          <InputGroup.Append>
+                            <Button variant="outline-secondary" onClick={() => {this.edit(item,i)}}>EDIT</Button>
+                            <Button variant="outline-secondary" onClick={() =>{this.delete(item,i)}}>DELETE</Button>
+                          </InputGroup.Append>
+                        </InputGroup>
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+                    
                   )
                 })
               }
