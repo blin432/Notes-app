@@ -1,5 +1,48 @@
 {
-  "posts": [],
-  "user": {},
-  "count": 0
+  "posts": [
+    {
+      "id": 1,
+      "title": "lowdb is awesome"
+    },
+    {
+      "id": 1,
+      "title": "dsf"
+    },
+    {
+      "id": 1,
+      "title": "asdf"
+    },
+    {
+      "id": 1,
+      "title": "hey"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    },
+    {
+      "id": 1,
+      "title": "test"
+    }
+  ],
+  "user": {
+    "name": "typicode"
+  },
+  "count": 1
 }

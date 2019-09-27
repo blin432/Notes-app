@@ -9,6 +9,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var notesRouter = require('./routes/notes');
 
+
+
 var app = express();
 
 // will set up after connecting react
@@ -39,8 +41,9 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
+
 
 
 
