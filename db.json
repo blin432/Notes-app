@@ -1,20 +1,16 @@
 {
   "posts": [
     {
-      "id": 7,
+      "title": "asdf"
+    },
+    {
+      "title": "asdf"
+    },
+    {
       "title": "sdf"
     },
     {
-      "id": 8,
-      "title": "asdf"
-    },
-    {
-      "id": 3,
-      "title": "asdf"
+      "title": "sdf"
     }
-  ],
-  "user": {
-    "name": "typicode"
-  },
-  "count": 8
+  ]
 }

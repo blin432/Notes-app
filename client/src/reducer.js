@@ -4,7 +4,6 @@ let initState = {
 }
 
 export const mainReducer = (state = initState, action) => {
-    
     switch(action.type) {
         case "ADD":
             let {input,data} = action
@@ -15,20 +14,16 @@ export const mainReducer = (state = initState, action) => {
           }
         case "EDIT":
             let {editValue,notesArray,i} = action
-            let editArray = Object.assign([], notesArray, {[i]: editValue});
+            let editArray = Object.assign([], notesArray, {[i]: editValue}); //Object.assign does not mutate state
           return {
             ...state,
             notesArray:editArray
           }
         case "DELETE":
             let {iDeleted,deleteArray} = action
-            console.log(iDeleted)
-            console.log(deleteArray)
             let deletedArray = deleteArray.filter((item,index)=>{
                   return iDeleted !== index
-            })
-            console.log(deletedArray)
-                  
+            })      
           return {
             ...state,
             notesArray:deletedArray

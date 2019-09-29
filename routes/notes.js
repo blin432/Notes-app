@@ -20,10 +20,9 @@ router.get('/', function(req, res, next) {
 
 //create the notes in at the resource
 router.post('/add', function(req, res, next) {
-  let id = req.body.idNumber
   let notes = req.body.inputValue;
   db.get('posts')
-    .push({id:id,title: notes})
+    .push({title: notes})
     .write()
   
 });
