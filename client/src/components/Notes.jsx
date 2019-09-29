@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import { Button,Form,Container,Row,Col,Accordion,Card, InputGroup,FormControl} from 'react-bootstrap';
+import {createStore } from 'redux';
+import {mainReducer} from '../reducer.js'
+
+let store = createStore(mainReducer);
 
 class Notes extends Component {
   constructor(props){
     super(props)
     this.state={
-      inputValue:'',
-      notesArray:[]
+      ...store.getState(),
+      notesArray:this.props.notes,
+      editValue: this.props.editValue
     }
-
   }
 
 render(){
+  let {item,i}= this.props
   return (
-    <ul>
-              {
-                this.state.notesArray.map((item,i)=>{
-                  return(
-
-                    <Accordion className="m-2" defaultActiveKey="0">
+    <Accordion className="m-2" defaultActiveKey="0">
                     <Card>
                       <Accordion.Toggle as={Card.Header} eventKey={i}>
                         {item}
@@ -28,25 +28,20 @@ render(){
                         <Card.Body>
                         <InputGroup>
                           <FormControl
-                            placeholder="Recipient's username"
-                            aria-label="Recipient's username"
+                            placeholder="Edit Value"
+                            aria-label="Edit Value"
                             aria-describedby="basic-addon2"
-                            value={this.state.editValue}  onChange={this.handleEditChange}
+                            value={this.state.editValue}  onChange={this.props.handleEditChange}
                           />
                           <InputGroup.Append>
-                            <Button variant="outline-secondary" onClick={() => {this.edit(item,i)}}>EDIT</Button>
-                            <Button variant="outline-secondary" onClick={() =>{this.delete(item,i)}}>DELETE</Button>
+                            <Button variant="outline-secondary" onClick={() => {this.props.edit(item,i)}}>EDIT</Button>
+                            <Button variant="outline-secondary" onClick={() =>{this.props.delete(item,i)}}>DELETE</Button>
                           </InputGroup.Append>
                         </InputGroup>
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
                   </Accordion>
-                    
-                  )
-                })
-              }
-          </ul>
   );
 }
 }

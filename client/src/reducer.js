@@ -1,8 +1,6 @@
 
 let initState = {
-    inputValue:'',
-    notesArray:[],
-    editValue:''
+    notesArray:[]
 }
 
 export const mainReducer = (state = initState, action) => {
@@ -24,9 +22,12 @@ export const mainReducer = (state = initState, action) => {
           }
         case "DELETE":
             let {iDeleted,deleteArray} = action
+            console.log(iDeleted)
+            console.log(deleteArray)
             let deletedArray = deleteArray.filter((item,index)=>{
                   return iDeleted !== index
             })
+            console.log(deletedArray)
                   
           return {
             ...state,

@@ -1,28 +1,16 @@
 {
   "posts": [
     {
-      "id": 6,
-      "title": "as"
-    },
-    {
       "id": 7,
-      "title": "a"
+      "title": "sdf"
     },
     {
-      "id": 2,
-      "title": "a"
+      "id": 8,
+      "title": "asdf"
     },
     {
       "id": 3,
-      "title": "wa"
-    },
-    {
-      "id": 4,
-      "title": "one"
-    },
-    {
-      "id": 5,
-      "title": "two"
+      "title": "asdf"
     }
   ],
   "user": {

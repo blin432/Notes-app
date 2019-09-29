@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Header from './components/Header.jsx';
 import Inputfield from './components/Inputfield.jsx';
-import {Container,Navbar} from 'react-bootstrap';
+import SpecificNotes from './components/SpecificNote.jsx';
+import { Switch, Route,Redirect, withRouter} from 'react-router-dom';
 
 
 
-function App() {
-  return (
-    <div className="App">
-      <Header/>
-      <Inputfield/>
+class App extends Component {
+ 
+
+render(){
+    return(
+      <div className="App">
+      <Switch>
+        <Route  path="/" exact component={Inputfield}/>
+        <Route  path="/notes/:id" component={SpecificNotes}/>  {/* URL path to get specific note, Try  "http://localhost:3000/notes/1"!  */}
+      </Switch>
     </div>
-  );
+    );
+  }
 }
+  
 
-export default App;
+
+export default withRouter(App);
