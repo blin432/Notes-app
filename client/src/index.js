@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import {createStore } from 'redux';
-// import {mainReducer} from './reducers/main-reducer.js'
-// import {Provider} from 'react-redux';
+import {mainReducer} from './reducer.js'
+import {Provider} from 'react-redux';
 
-// let store = createStore(mainReducer);
+let store = createStore(mainReducer);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 

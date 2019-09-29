@@ -34,7 +34,10 @@ db._.mixin(lodashId)
 
 // We need to set some default values, if the collection does not exist yet
 // We also can store our collection
+let one= 1;
+let two = 1;
 const n=db.get('posts')
-  .pull()
-  .write()
+.splice(5,1)
+.write()
   console.log(n);
+

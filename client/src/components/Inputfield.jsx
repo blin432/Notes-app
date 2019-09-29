@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button,Form,Container,Row,Col,Accordion,Card, InputGroup,FormControl} from 'react-bootstrap';
 import Notes from './Notes.jsx';
+import {createStore } from 'redux';
+import {mainReducer} from '../reducer.js'
 
+let store = createStore(mainReducer);
 
 class Inputfield extends Component {
   constructor(props){
     super(props)
     this.state={
+      ...store.getState(),
       inputValue:'',
-      notesArray:[],
-      editValue:''
+      editValue:'',
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,38 +21,16 @@ class Inputfield extends Component {
   }
 
 
-
   componentDidMount(e){
     axios.get('/notes')
     .then( resp => {
-      console.log(resp);
-      console.log(resp.data);
-      console.log(resp.data[1]);
-     
       this.setState({
-        notesArray:[...this.state.notesArray,...resp.data]
+        notesArray:[...resp.data],
       })
-    
     })
     .catch(err => console.log(err))
   }
 
-  // this.setState({scores: resp.data.filter( score => 
-    // score.level === this.state.level)}))
-
-
-  // handleClick() {
-  //   this.setState(state => ({
-  //     isToggleOn: !state.isToggleOn
-  //   }));
-  // }
-
-  // handleNoteInput(input){
-  //   this.setState({inputValue:input})
-  // }
-  // handleNoteEdit(input){
-  //   this.setState({inputValue:input})
-  // }
   handleChange(event){
     this.setState({
       inputValue:event.target.value
@@ -62,58 +43,43 @@ class Inputfield extends Component {
     });
   }
   handleSubmit(e) {
-    this.setState({
-      notesArray:[...this.state.notesArray,this.state.inputValue]
-    })
+    let input = this.state.inputValue
+    let data = this.state.notesArray
+      store.dispatch({type:"ADD",input, data})
+      this.setState({...store.getState()}) 
     let {inputValue,notesArray}= this.state
-    console.log(notesArray.length);
     let idNumber = notesArray.length
-    console.log(inputValue);
-    console.log(notesArray)
-    axios.post('/notes/add', {inputValue,idNumber})
-      .then((data) =>{
-        console.log(data)
-      })
-      .catch((error) => this.setState({errMsg:error}))
+
+      axios.post('/notes/add', {inputValue,idNumber})
+        .then((data) =>{
+        })
+        .catch((error) => this.setState({errMsg:error}))
     e.preventDefault(); 
 }
  
      
 edit(e,i) {
   let {editValue,notesArray} = this.state
-  console.log(i)
-  
-  let editArray =Object.assign([], this.state.notesArray, {[i]: editValue});
-  console.log(editArray);
-  this.setState({
-    notesArray:editArray
-  })
-  console.log(notesArray.length);
-  console.log(notesArray)
-  axios.put(`/notes/edit/${i}`, {editValue})
-    .then((data) =>{
-      console.log(data)
-    })
-    .catch((error) => this.setState({errMsg:error}))
+    store.dispatch({type:"EDIT",editValue,i,notesArray})
+    this.setState({...store.getState()}) 
+    
+    axios.put(`/notes/edit/${i}`, {editValue})
+      .then((data) =>{
+      })
+      .catch((error) => this.setState({errMsg:error}))
 }
 
 
 
-delete(valueToDelete,i){
-  console.log(i)
-  let changedArray = this.state.notesArray.filter((item,index)=>{
-     return i !== index
-  })
-  console.log(changedArray);
-  this.setState({
-    notesArray:changedArray
-  })
-  axios.delete(`/notes/delete/${i}`)
-  .then((data) =>{
-    console.log(data)
-  })
-  .catch((error) => this.setState({errMsg:error}))
-
+delete(valuetoDelete,iDeleted){
+  let deleteArray = this.state.notesArray;
+    store.dispatch({type:"DELETE",iDeleted,deleteArray})
+    this.setState({...store.getState()}) 
+  
+  axios.delete(`/notes/delete/${iDeleted}`)
+    .then((data) =>{
+    })
+    .catch((error) => this.setState({errMsg:error}))
 }
   
 
@@ -158,7 +124,6 @@ render(){
                       </Accordion.Collapse>
                     </Card>
                   </Accordion>
-                    
                   )
                 })
               }

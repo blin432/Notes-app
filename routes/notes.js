@@ -21,14 +21,12 @@ router.get('/', function(req, res, next) {
   const n= db.get('posts')
   .map('title')
   .value()
-   console.log(n);
    res.json(n);
 
 });
 
 //create the notes in at the resource
 router.post('/add', function(req, res, next) {
-  console.log(req.body);
   let id = req.body.idNumber
   let notes = req.body.inputValue;
   db.get('posts')
@@ -39,12 +37,8 @@ router.post('/add', function(req, res, next) {
 
 //edit notes at the resources
 router.put('/edit/:id', function(req, res, next) {
-  console.log(req.params)
-  console.log(req.body)
   let editId= req.params.id
-  console.log(editId)
   let editTitle= req.body.editValue
-  console.log(editTitle)
   db.get(`posts[${editId}]`)
   .assign({ title: editTitle})
   .write()
@@ -53,15 +47,10 @@ router.put('/edit/:id', function(req, res, next) {
 
 //delete notes at the resource
 router.delete('/delete/:id', function(req, res, next) {
-  console.log("id")
-  console.log(req.params.id)
-  let idDelete= req.params.id
-  const n=db.get(`posts[${idDelete}]`)
-  .remove()
+  console.log(req.params);
+  db.get('posts')
+  .splice(req.params.id,1) // lowdb splice function require (indexof array, number of elements to slice)
   .write()
-  console.log(n);
-
-  
 });
 
 module.exports = router;
