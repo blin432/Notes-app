@@ -1,16 +1,19 @@
 {
   "posts": [
     {
-      "title": "asdf"
+      "title": "Try out the notes!"
     },
     {
-      "title": "asdf"
+      "title": "note 1"
     },
     {
-      "title": "sdf"
+      "title": "note 2"
     },
     {
-      "title": "sdf"
+      "title": "note 3"
+    },
+    {
+      "title": "note 4"
     }
   ]
 }

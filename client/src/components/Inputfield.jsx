@@ -104,7 +104,7 @@ render(){
         <Row>
           <Col md={{span: 8, offset: 2}} lg={{span: 8, offset: 2}}>
             <h2 className="mt-5">NOTES!</h2>
-            <h4 className="">Click on the Notes Tiles to Edit!</h4>
+            <h4 className="">Click On The Note Tiles To Edit!</h4>
             <Form  className="d-flex flex-row justify-content-center align-items-center" onSubmit={this.handleSubmit}>
               <Form.Group className="m-0 pl-2"  as={Col}>
                     <Form.Control type="text" value={this.state.inputValue}  onChange={this.handleChange}/>
