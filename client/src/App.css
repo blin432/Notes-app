@@ -36,3 +36,7 @@
   .cart-icon {
     cursor: pointer;
   }
+
+  .navbar-titles{
+      background-color:blue;
+  }

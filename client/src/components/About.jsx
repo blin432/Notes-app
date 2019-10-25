@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Navbar} from 'react-bootstrap';
 
-class Header extends Component{
+class About extends Component{
 
     render(){ 
       return(
@@ -16,4 +16,4 @@ class Header extends Component{
   }
 }
 
-export default Header;
+export default About;
